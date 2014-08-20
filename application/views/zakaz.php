@@ -191,6 +191,8 @@
                     $('#picca').prop('disabled', true);
                     $('#sous').prop('disabled', true);
                     $('#napitok').prop('disabled', true);
+                    $('#wok').prop('disabled', true);
+                    $('#zakuska').prop('disabled', true);
                 });
                 $('#return_menu').click(function(){
                     $('#div_items_table').show(600);
@@ -198,6 +200,8 @@
                     $('#picca').prop('disabled', false);
                     $('#sous').prop('disabled', false);
                     $('#napitok').prop('disabled', false);
+                    $('#wok').prop('disabled', false);
+                    $('#zakuska').prop('disabled', false);
                 });
                 
                 $('#adress').typeahead({
