@@ -41,3 +41,4 @@ www/css/*.png
 www/css/*.gif
 *.log
 sql
+*.bak
