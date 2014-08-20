@@ -80,6 +80,18 @@ function change_napitok_id(id)
     //$('#price').text(items_picca_name[$('#picca_name_'+id).val()][$('#picca_size_'+id).val()][$('#price_one_'+id).text()]);
 }
 
+function change_wok_id(id)
+{
+    $('#id_'+id).val(items_wok_name[$('#wok_name_'+id).val()][$('#wok_size_'+id).val()][$('#price_one_'+id).text()]);
+    recount_price();
+}
+
+function change_zakuska_id(id)
+{
+    $('#id_'+id).val(items_zakuska_name[$('#zakuska_name_'+id).val()][$('#zakuska_size_'+id).val()][$('#price_one_'+id).text()]);
+    recount_price();
+}
+
 function change_size_pizza(id)
 {
    var pr = get_key(items_picca_name[$('#picca_name_'+id).val()][$('#picca_size_'+id).val()]);
@@ -92,6 +104,20 @@ function change_size_napitok(id)
    var pr = get_key(items_napitok_name[$('#napitok_name_'+id).val()][$('#napitok_size_'+id).val()]);
    change_price_one(id, pr);
    change_napitok_id(id);
+}
+
+function change_size_wok(id)
+{
+   var pr = get_key(items_wok_name[$('#wok_name_'+id).val()][$('#wok_size_'+id).val()]);
+   change_price_one(id, pr);
+   change_wok_id(id);
+}
+
+function change_size_zakuska(id)
+{
+   var pr = get_key(items_zakuska_name[$('#zakuska_name_'+id).val()][$('#zakuska_size_'+id).val()]);
+   change_price_one(id, pr);
+   change_zakuska_id(id);
 }
 
 function change_sous_name(id)
@@ -120,6 +146,32 @@ function load_size_napitok(obj)
     $('#napitok_size_'+id+' option').remove();
     var napitok_size_list = get_key(items_napitok_name[$('#napitok_name_'+id).val()]);
     $.each(napitok_size_list,function() {
+    $('<option/>', {
+        val:  this,
+        text: this
+        }).appendTo(obj);
+    });
+}
+
+function load_size_wok(obj)
+{
+    id = get_id(obj);
+    $('#wok_size_'+id+' option').remove();
+    var wok_size_list = get_key(items_wok_name[$('#wok_name_'+id).val()]);
+    $.each(wok_size_list,function() {
+    $('<option/>', {
+        val:  this,
+        text: this
+        }).appendTo(obj);
+    });
+}
+
+function load_size_zakuska(obj)
+{
+    id = get_id(obj);
+    $('#zakuska_size_'+id+' option').remove();
+    var zakuska_size_list = get_key(items_zakuska_name[$('#zakuska_name_'+id).val()]);
+    $.each(zakuska_size_list,function() {
     $('<option/>', {
         val:  this,
         text: this
@@ -460,6 +512,200 @@ function create_napitok()
 function init_create_napitok()
 {
 	$('#napitok').click(function(){create_napitok();})
+}
+
+function create_wok()
+{
+    var id = 'id_tr_'+count;
+    var my_tr = $('<tr/>', {
+    id:     id
+    });
+    $('#my_table').append($('<tbody/>').append(my_tr));
+
+            // удалить
+    var button_del = $('<button/>', {
+            id:     'button_'+count,
+            type:   'button',
+            class:  'btn btn-mini'
+    }).append($('<i/>',{class: 'icon-remove'}));
+    $('#'+id).append($('<td/>').append(button_del));
+    $('#button_'+count).click(function(){
+            remove(get_id(this));
+    })
+
+    // название вока
+    var select_wok_name = $('<select/>', {id: 'wok_name_'+count, class: 'input-xlarge'});
+    var wok_list = get_key(items_wok_name);
+    $.each(wok_list,function() {
+    $('<option/>', {
+        val:  this,
+        text: this
+        }).appendTo(select_wok_name);
+    });
+    select_wok_name.change(function(){
+        var id = get_id(this);
+        load_size_wok($('#wok_size_'+id));
+        change_size_wok(id);
+    })
+    $('#'+id).append($('<td/>').append(select_wok_name));
+
+    // Размер вока
+    var select_wok_size = $('<select/>', {id: 'wok_size_'+count, class: 'input-mini'});
+    $('#'+id).append($('<td/>').append(select_wok_size));
+    select_wok_size.change(function(){
+        change_size_wok(get_id(this));
+    })
+    load_size_wok(select_wok_size);
+
+    // количество
+    var input_count = $('<input/>', {
+        id:     'count_'+count,
+        name:   'count[]',
+        type:   'number',
+        min:    '1',
+        value:  '1',
+        class:  'input-mini'
+    });
+    input_count.change(function(){
+        recount_price_all(get_id(this));
+    })
+    $('#'+id).append($('<td/>').append(input_count));
+
+    // цена за единицу
+    var price_one = $('<span/>',{
+       id:      'price_one_'+count,
+       class:   'label label-info'
+    });
+    $('#'+id).append($('<td/>').append(price_one));
+
+    // стоимость
+    var price_all = $('<span/>',{
+       id:      'price_all_'+count,
+       class:   'label label-important'
+    });
+    $('#'+id).append($('<td/>').append(price_all));
+    
+    // комент
+    var input = $('<input/>', {
+            name:   'coment[]',
+            type:   'text',
+            class:  'input-large'
+    })
+    $('#'+id).append($('<td/>').append(input));
+
+    var input_hidden = $('<input/>', {
+        id:     'id_'+count,
+        name:   'id[]',
+        type:   'hidden'
+    });
+    
+    $('#'+id).append(input_hidden);
+
+    change_size_wok(count);
+    count = count+1;
+    recount_price();
+}
+
+function init_create_wok()
+{
+    $('#wok').click(function(){create_wok();})
+}
+
+function create_zakuska()
+{
+    var id = 'id_tr_'+count;
+    var my_tr = $('<tr/>', {
+    id:     id
+    });
+    $('#my_table').append($('<tbody/>').append(my_tr));
+
+            // удалить
+    var button_del = $('<button/>', {
+            id:     'button_'+count,
+            type:   'button',
+            class:  'btn btn-mini'
+    }).append($('<i/>',{class: 'icon-remove'}));
+    $('#'+id).append($('<td/>').append(button_del));
+    $('#button_'+count).click(function(){
+            remove(get_id(this));
+    })
+
+    // название вока
+    var select_zakuska_name = $('<select/>', {id: 'zakuska_name_'+count, class: 'input-xlarge'});
+    var zakuska_list = get_key(items_zakuska_name);
+    $.each(zakuska_list,function() {
+    $('<option/>', {
+        val:  this,
+        text: this
+        }).appendTo(select_zakuska_name);
+    });
+    select_zakuska_name.change(function(){
+        var id = get_id(this);
+        load_size_zakuska($('#zakuska_size_'+id));
+        change_size_zakuska(id);
+    })
+    $('#'+id).append($('<td/>').append(select_zakuska_name));
+
+    // Размер вока
+    var select_zakuska_size = $('<select/>', {id: 'zakuska_size_'+count, class: 'input-mini'});
+    $('#'+id).append($('<td/>').append(select_zakuska_size));
+    select_zakuska_size.change(function(){
+        change_size_zakuska(get_id(this));
+    })
+    load_size_zakuska(select_zakuska_size);
+
+    // количество
+    var input_count = $('<input/>', {
+        id:     'count_'+count,
+        name:   'count[]',
+        type:   'number',
+        min:    '1',
+        value:  '1',
+        class:  'input-mini'
+    });
+    input_count.change(function(){
+        recount_price_all(get_id(this));
+    })
+    $('#'+id).append($('<td/>').append(input_count));
+
+    // цена за единицу
+    var price_one = $('<span/>',{
+       id:      'price_one_'+count,
+       class:   'label label-info'
+    });
+    $('#'+id).append($('<td/>').append(price_one));
+
+    // стоимость
+    var price_all = $('<span/>',{
+       id:      'price_all_'+count,
+       class:   'label label-important'
+    });
+    $('#'+id).append($('<td/>').append(price_all));
+    
+    // комент
+    var input = $('<input/>', {
+            name:   'coment[]',
+            type:   'text',
+            class:  'input-large'
+    })
+    $('#'+id).append($('<td/>').append(input));
+
+    var input_hidden = $('<input/>', {
+        id:     'id_'+count,
+        name:   'id[]',
+        type:   'hidden'
+    });
+    
+    $('#'+id).append(input_hidden);
+
+    change_size_zakuska(count);
+    count = count+1;
+    recount_price();
+}
+
+function init_create_zakuska()
+{
+    $('#zakuska').click(function(){create_zakuska();})
 }
 
 function check_zakaz()
