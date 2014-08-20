@@ -88,3 +88,8 @@ function update() {
     });
 }
 
+var ws = new WebSocket('ws://localhost:12345');
+log('Connection (readyState ');
+ws.onopen = function(msg) {
+    write('Connection successfully opened (readyState ' + this.readyState+')');
+};
