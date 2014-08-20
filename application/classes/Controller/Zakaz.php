@@ -72,11 +72,43 @@ class Controller_Zakaz extends Controller_Template
                 
             $napitok_list[0] = " ";
 
+            $woks = DB::query(Database::SELECT, 'SELECT DISTINCT name FROM menus WHERE category="wok"')->execute()->as_array();
+            
+            $wok_list = "";
+            foreach($woks as $wok)
+            {
+                $sizes = ORM::factory('Menu')->where('name', '=', $wok['name'])->where('category', '=', 'wok')->find_all()->as_array();
+                $size_list = "";
+                foreach ($sizes as $size)
+                    $size_list .= ', "'.$size->size.'" : {"'.$size->price.'" : ["'.$size->id.'"]}';
+                $size_list[0] = " ";
+                $wok_list .= ',"'.addslashes($wok['name']).'" : {'.$size_list.'}';   
+            }
+                
+            $wok_list[0] = " ";
+
+            $zakuskas = DB::query(Database::SELECT, 'SELECT DISTINCT name FROM menus WHERE category="snack"')->execute()->as_array();
+            
+            $zakuska_list = "";
+            foreach($zakuskas as $zakuska)
+            {
+                $sizes = ORM::factory('Menu')->where('name', '=', $zakuska['name'])->where('category', '=', 'snack')->find_all()->as_array();
+                $size_list = "";
+                foreach ($sizes as $size)
+                    $size_list .= ', "'.$size->size.'" : {"'.$size->price.'" : ["'.$size->id.'"]}';
+                $size_list[0] = " ";
+                $zakuska_list .= ',"'.addslashes($zakuska['name']).'" : {'.$size_list.'}';   
+            }
+                
+            $zakuska_list[0] = " ";
+
             
             $mainView = View::factory('zakaz');
             $mainView->pizza_list = $pizza_list;
             $mainView->sous_list = $sous_list;
             $mainView->napitok_list = $napitok_list;
+            $mainView->wok_list = $wok_list;
+            $mainView->zakuska_list = $zakuska_list;
             
 //            echo $mainView->render();
             $this->template->content = $mainView;

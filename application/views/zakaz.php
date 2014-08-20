@@ -3,10 +3,12 @@
                 <div class="span2">
                     <div class="affix">
                         <ul class="nav nav-list well">
-                            <li class="nav-header">Меню</li>
-                            <li><button id="picca" class="btn btn-large btn-link"><i class="icon-plus"></i> Пицца</button></li>
-                            <li><button id="sous" class="btn btn-large btn-link"><i class="icon-plus"></i> Соус</button></li>
-                            <li><button id="napitok" class="btn btn-large btn-link"><i class="icon-plus"></i> Напиток</button></li>
+                            <li class="nav-header">Добавить в заказ</li>
+                            <li><button id="picca" class="btn btn-block">Пицца</button></li>
+                            <li><button id="sous" class="btn btn-block">Соус</button></li>
+                            <li><button id="napitok" class="btn btn-block">Напиток</button></li>
+                            <li><button id="wok" class="btn btn-block">Вок</button></li>
+                            <li><button id="zakuska" class="btn btn-block">Закуска</button></li>
                         </ul>
                         <ul class="nav nav-list well">
                             <li class="nav-header">Промо код</li>
@@ -116,12 +118,16 @@
             var items_picca_name = {<?php echo $pizza_list ?>};
             var items_sous_name = {<?php echo $sous_list ?>};
             var items_napitok_name = {<?php echo $napitok_list ?>};
+            var items_wok_name = {<?php echo $wok_list ?>};
+            var items_zakuska_name = {<?php echo $zakuska_list ?>};
             var street_id;
             
             $(document).ready(function() {
                 init_create_picca();
                 init_create_sous();
                 init_create_napitok();
+                init_create_wok();
+                init_create_zakuska();
                 create_picca();
                 //create_sous();
                 //recount_price();
