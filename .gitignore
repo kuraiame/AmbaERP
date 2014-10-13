@@ -42,3 +42,4 @@ www/css/*.gif
 *.log
 sql
 *.bak
+nbproject
