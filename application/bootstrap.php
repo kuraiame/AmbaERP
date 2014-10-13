@@ -141,6 +141,13 @@ Route::set('reports', 'reports(/<action>(/<id>))')
 		'controller' => 'reports',
 		'action'     => 'zakaz_day',
 	));
+
+Route::set('api', 'api10(/<apikey>(/<action>(/<id>)))')
+	->defaults(array(
+		'controller' => 'api10',
+		'action'     => 'index',
+	));
+
 Route::set('default', '(<controller>(/<action>(/<id>)))')
 	->defaults(array(
 		'controller' => 'main',
